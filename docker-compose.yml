@@ -1,0 +1,21 @@
+services:
+  train:
+    build: .
+    container_name: weather-rain-train
+    volumes:
+      - .:/app
+      - kagglehub-cache:/root/.cache/kagglehub
+    command: python -m src.train --quick
+
+  notebook:
+    build: .
+    container_name: weather-rain-notebook
+    volumes:
+      - .:/app
+      - kagglehub-cache:/root/.cache/kagglehub
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --no-browser --NotebookApp.token=''
+
+volumes:
+  kagglehub-cache:
